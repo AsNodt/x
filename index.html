@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, 
+            body {
+                height: 100%;
+            }
+        .div {
+            margin: auto;
+            width: 60%;
+            padding: 10px;
+            text-align: center;
+        }
+        #contentContainer {
+    height: 100%;
+    border: 5px black solid;
+    overflow: hidden;
+    cursor: pointer;
+}
+#thing {
+    position: relative;
+    left: 50px;
+    top: 50px;
+    transition: left .5s ease-in, top .5s ease-in;
+}
+    </style>
+</head>
+<body>
+    <div id="contentContainer">
+        <img id="thing" src="titit.png">
+    </div>
+    <button id="btn">acak</button>
+     <p id="p1"></p>
+    <script>
+        var p = document.getElementById("btn");
+        var num = [1, 2, 1, 0];
+        p.addEventListener("click", ()=> {
+            var a = Math.round(Math.random()*4) + 1;
+                if (a == 1) {
+                    a = "A";
+                } else if (a == 2) {
+                    a = "B";
+                } else if (a == 3) {
+                    a = "C";
+                } else if (a == 4) {
+                    a = "D";
+                } else if (a == 5) {
+                    a = "E";
+                }
+            document.getElementById("p1").innerHTML = a;
+            document.body.style.backgroundColor = "rgba(" + num[0] + "," + num[1] + "," + num[2] + "," + num[3] + ")";
+            num[0] = Math.round(Math.random() * 251);
+            num[1] = Math.round(Math.random() * 251);
+            num[2] = Math.round(Math.random() * 251);
+            num[3] = Math.random().toFixed(1);
+        });
+        var num = [1, 2, 1, 0];
+        var bodi = document.body;
+        bodi.addEventListener("click", function() {
+            document.body.style.backgroundColor = "rgba(" + num[0] + "," + num[1] + "," + num[2] + "," + num[3] + ")";
+            num[0] = Math.round(Math.random() * 251);
+            num[1] = Math.round(Math.random() * 251);
+            num[2] = Math.round(Math.random() * 251);
+            num[3] = Math.random().toFixed(1);
+            document.getElementById("p1").innerHTML = num[0];
+            document.getElementById("p2").innerHTML = num[1];
+            document.getElementById("p3").innerHTML = num[2];
+            document.getElementById("p4").innerHTML = num[3];
+        });
+        var theThing = document.querySelector("#thing");
+        var container = document.querySelector("#contentContainer");
+
+        container.addEventListener("mousemove", getClickPosition, false);
+
+        function getClickPosition(e) {
+            var parentPosition = getPosition(container);
+            var xPosition = e.clientX - parentPosition.x - (theThing.clientWidth / 2);
+            var yPosition = e.clientY - parentPosition.y - (theThing.clientHeight / 2);
+
+            theThing.style.left = xPosition + "px";
+            theThing.style.top = yPosition + "px";
+        }   
+
+// Helper function to get an element's exact position
+function getPosition(el) {
+  var xPos = 0;
+  var yPos = 0;
+
+  while (el) {
+    if (el.tagName == "BODY") {
+      // deal with browser quirks with body/window/document and page scroll
+      var xScroll = el.scrollLeft || document.documentElement.scrollLeft;
+      var yScroll = el.scrollTop || document.documentElement.scrollTop;
+
+      xPos += (el.offsetLeft - xScroll + el.clientLeft);
+      yPos += (el.offsetTop - yScroll + el.clientTop);
+    } else {
+      // for all other non-BODY elements
+      xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+      yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+    }
+
+    el = el.offsetParent;
+  }
+  return {
+    x: xPos,
+    y: yPos
+  };
+}
+    </script>
+</body>
+</html>
